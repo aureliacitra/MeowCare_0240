@@ -8,8 +8,8 @@
 
 | Field | Value |
 |---|---|
-| Document ID | SRS-MeowCare-v0.5 |
-| Version Number | 0.5 (Deployment and Authentication Decisions) |
+| Document ID | SRS-MeowCare-v0.6 |
+| Version Number | 0.6 (Account Deletion Policy) |
 | Issue Date | November 21, 2026 |
 | Classification | Public |
 | Reviewer | TBD |
@@ -29,6 +29,7 @@ This document is prepared for an academic mobile application development project
 | November 21, 2026 | 0.3 | Added initial analysis models | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.4 | Defined baseline data fields and expanded ERD | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.5 | Defined backend hosting and token policy baseline | Aurelia Citra Pangukir |
+| November 21, 2026 | 0.6 | Defined account deletion and data removal policy | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.4 | Defined baseline fields for User, Customer, Cat, and expanded ERD | Aurelia Citra Pangukir |
 
 ## Reviewed By
@@ -82,7 +83,7 @@ This document is prepared for an academic mobile application development project
 
 ### 1.1 Purpose
 
-Dokumen Software Requirement Specification (SRS) ini menjelaskan kebutuhan perangkat lunak MeowCare versi 0.4, yaitu aplikasi Android untuk membantu pemilik usaha penitipan dan grooming kucing mengelola data pelanggan, hewan, layanan, reservasi, dan catatan harian. Dokumen ini menjadi acuan awal bagi proses perancangan, implementasi, dan pengujian aplikasi. Ruang lingkup kebutuhan yang tercantum berfokus pada aplikasi Android dan layanan backend yang mendukung penyimpanan serta pengelolaan data.
+Dokumen Software Requirement Specification (SRS) ini menjelaskan kebutuhan perangkat lunak MeowCare versi 0.6, yaitu aplikasi Android untuk membantu pemilik usaha penitipan dan grooming kucing mengelola data pelanggan, hewan, layanan, reservasi, dan catatan harian. Dokumen ini menjadi acuan awal bagi proses perancangan, implementasi, dan pengujian aplikasi. Ruang lingkup kebutuhan yang tercantum berfokus pada aplikasi Android dan layanan backend yang mendukung penyimpanan serta pengelolaan data.
 
 
 ### 1.2 Document Conventions
@@ -117,7 +118,7 @@ Tujuan utama MeowCare:
 - Mendukung pencatatan kondisi atau aktivitas harian kucing selama penitipan.
 - Mengurangi ketergantungan pada pencatatan manual yang terpisah.
 
-MeowCare pada versi awal ditujukan untuk satu pemilik/pengelola akun. Aplikasi tidak mencakup akun pelanggan, multi-role admin, pembayaran online, notifikasi eksternal, atau pemesanan mandiri oleh pelanggan. Aplikasi mendukung layanan penitipan dengan tarif per hari dan grooming dengan tarif per sesi. Reservasi penitipan menggunakan rentang tanggal, sedangkan reservasi grooming menggunakan tanggal sesi.
+MeowCare pada versi awal ditujukan untuk satu pemilik/pengelola akun. Aplikasi tidak mencakup akun pelanggan, multi-role admin, pembayaran online, notifikasi eksternal, atau pemesanan mandiri oleh pelanggan. Pemilik dapat menghapus akun melalui aplikasi dengan konfirmasi; penghapusan akun menghapus data cloud dan catatan harian/foto lokal terkait secara permanen. Aplikasi mendukung layanan penitipan dengan tarif per hari dan grooming dengan tarif per sesi. Reservasi penitipan menggunakan rentang tanggal, sedangkan reservasi grooming menggunakan tanggal sesi.
 
 
 ### 1.5 References
@@ -237,7 +238,7 @@ Dokumentasi yang direncanakan:
 
 #### 3.1.1 Description and Priority
 
-Fitur autentikasi memungkinkan pemilik mendaftarkan akun dan masuk ke aplikasi. Profil digunakan untuk mengidentifikasi pemilik akun. **Priority: High.** Detail atribut profil dan kebijakan akun TBD.
+Fitur autentikasi memungkinkan pemilik mendaftarkan akun dan masuk ke aplikasi. Profil digunakan untuk mengidentifikasi pemilik akun. Fitur juga menyediakan penghapusan akun yang menghapus data akun secara permanen setelah konfirmasi. **Priority: High.**
 
 #### 3.1.2 Stimulus/Response Sequences
 
@@ -253,7 +254,8 @@ Fitur autentikasi memungkinkan pemilik mendaftarkan akun dan masuk ke aplikasi. 
 - **REQ-003:** Sistem harus memvalidasi input autentikasi dan menampilkan pesan ketika input tidak valid atau autentikasi gagal.
 - **REQ-004:** Sistem harus menyediakan proses logout.
 - **REQ-005:** Backend harus membatasi akses data operasional pada akun yang terautentikasi dan berhak atas data tersebut.
-- **REQ-006:** Sistem harus menyediakan pengelolaan profil dasar pemilik. Atribut profil TBD.
+- **REQ-006:** Sistem harus menyediakan pengelolaan profil dasar pemilik.
+- **REQ-051:** Sistem harus menyediakan penghapusan akun pemilik setelah konfirmasi dan menghapus seluruh data cloud milik akun serta catatan harian dan foto lokal terkait.
 
 ### 3.2 Pelanggan
 
@@ -452,6 +454,7 @@ Detail endpoint, skema payload, versi library, dan kontrak API akan ditentukan p
 - **SEC-006:** Data dikirim melalui HTTPS pada lingkungan deployment publik.
 - **SEC-007:** Token dan informasi autentikasi tidak boleh ditampilkan pada UI atau dicatat ke log yang tidak aman.
 - **SEC-008:** Aplikasi harus menyimpan token autentikasi menggunakan mekanisme penyimpanan Android yang aman; refresh token harus dapat dirotasi dan dicabut saat logout.
+- **SEC-009:** Sistem harus meminta konfirmasi sebelum menghapus akun dan memastikan data cloud milik akun serta catatan harian/foto lokal terkait dihapus secara permanen.
 
 ### 5.4 Software Quality Attributes
 
@@ -468,6 +471,7 @@ Detail endpoint, skema payload, versi library, dan kontrak API akan ditentukan p
 - Data pelanggan, hewan, layanan, dan reservasi disimpan pada database cloud.
 - Data catatan harian dan foto pada versi awal disimpan secara lokal di perangkat Android.
 - Data tarif yang digunakan dalam reservasi disimpan sebagai snapshot untuk menjaga nilai reservasi lama.
+- Penghapusan akun merupakan proses khusus yang menghapus seluruh data cloud akun dan data catatan harian/foto lokal terkait secara permanen setelah konfirmasi pengguna.
 - Aturan penghapusan data berelasi harus mencegah penghapusan yang menyebabkan referensi reservasi tidak valid.
 - Backup/restore otomatis catatan harian dan foto tidak termasuk versi awal.
 - Ekspor data operasional belum termasuk baseline awal.
@@ -713,7 +717,7 @@ flowchart TD
 |---|---|---|
 | TBD-001 | Hosting backend Express dan konfigurasi deployment | Closed — Express web service pada Render; PostgreSQL pada Supabase |
 | TBD-002 | Masa berlaku access/refresh token dan mekanisme refresh | Closed — access token 15 menit; refresh token 7 hari, dirotasi saat refresh dan dicabut saat logout |
-| TBD-003 | Kebijakan penghapusan akun dan retensi data | Open |
+| TBD-003 | Kebijakan penghapusan akun dan retensi data | Closed — penghapusan permanen data cloud dan catatan harian/foto lokal terkait setelah konfirmasi |
 | TBD-004 | Detail final atribut profil pemilik | Closed — atribut baseline ditetapkan pada Appendix B.3 |
 | TBD-005 | Dokumen panduan pengguna dan dokumentasi API | Open |
 
