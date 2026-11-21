@@ -613,6 +613,30 @@ Keterangan:
 - Catatan harian dicatat per tanggal untuk reservasi; satu catatan memiliki maksimal tiga foto.
 - Diagram ini bersifat konseptual. Hubungan data dan aturan penghapusan tetap mengikuti requirement Bab 3.
 
+### B.4 Activity Diagram — Catatan Harian
+
+Proses pencatatan harian dimulai dari detail reservasi. Pemilik mengisi kondisi, aktivitas, keterangan, serta foto opsional, kemudian sistem menyimpan catatan pada perangkat.
+
+```mermaid
+flowchart TD
+    Start([Mulai]) --> A["Buka detail reservasi"]
+    A --> B["Buka Catatan Harian"]
+    B --> C["Pilih tanggal catatan"]
+    C --> D["Isi kondisi kucing"]
+    D --> E["Isi aktivitas"]
+    E --> F["Isi keterangan tambahan"]
+    F --> G{"Tambah foto?"}
+    G -->|Ya| H["Pilih foto dari perangkat"]
+    H --> I["Validasi format dan ukuran foto"]
+    I --> J{"Foto valid?"}
+    J -->|Tidak| K["Tampilkan pesan kesalahan"]
+    K --> H
+    J -->|Ya| L["Simpan catatan dan foto lokal"]
+    G -->|Tidak| L
+    L --> M["Tampilkan catatan tersimpan"]
+    M --> End([Selesai])
+```
+
 ## Appendix C: Issues List
 
 | ID | Issue | Status |
