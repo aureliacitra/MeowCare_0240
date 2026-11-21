@@ -8,8 +8,8 @@
 
 | Field | Value |
 |---|---|
-| Document ID | SRS-MeowCare-v0.4 |
-| Version Number | 0.4 (Data Fields Draft) |
+| Document ID | SRS-MeowCare-v0.5 |
+| Version Number | 0.5 (Deployment and Authentication Decisions) |
 | Issue Date | November 21, 2026 |
 | Classification | Public |
 | Reviewer | TBD |
@@ -28,6 +28,7 @@ This document is prepared for an academic mobile application development project
 | November 21, 2026 | 0.2 | Clarification and completion of baseline business rules | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.3 | Added initial analysis models | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.4 | Defined baseline data fields and expanded ERD | Aurelia Citra Pangukir |
+| November 21, 2026 | 0.5 | Defined backend hosting and token policy baseline | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.4 | Defined baseline fields for User, Customer, Cat, and expanded ERD | Aurelia Citra Pangukir |
 
 ## Reviewed By
@@ -223,7 +224,7 @@ Dokumentasi yang direncanakan:
 - Data pelanggan, hewan, layanan, dan reservasi tersimpan di backend/database cloud.
 - Catatan harian dan foto disimpan lokal; pengguna bertanggung jawab menjaga perangkat dan file lokal.
 - Backend, database, dan layanan hosting bergantung pada ketersediaan penyedia pihak ketiga.
-- Supabase direncanakan sebagai layanan database PostgreSQL; detail konfigurasi dan hosting backend TBD.
+- Backend Express direncanakan di-deploy sebagai web service pada Render. Database PostgreSQL menggunakan Supabase.
 - Aturan bisnis yang belum ditetapkan akan diputuskan pada tahap analisis lanjutan dan dicatat dalam Issues List.
 
 
@@ -423,7 +424,7 @@ Detail endpoint, skema payload, versi library, dan kontrak API akan ditentukan p
 - Payload API menggunakan JSON.
 - HTTPS digunakan pada deployment publik untuk melindungi data selama transmisi.
 - Endpoint API memerlukan autentikasi untuk operasi data privat.
-- Mekanisme token access dan refresh direncanakan; detail masa berlaku dan alur refresh TBD.
+- Autentikasi menggunakan access token berumur 15 menit dan refresh token berumur 7 hari. Refresh token dirotasi ketika digunakan untuk refresh dan dapat dicabut saat logout.
 - Aplikasi membutuhkan koneksi internet untuk operasi cloud. Dukungan offline untuk data cloud tidak termasuk baseline awal.
 
 
@@ -450,7 +451,7 @@ Detail endpoint, skema payload, versi library, dan kontrak API akan ditentukan p
 - **SEC-005:** Sistem harus memvalidasi input yang diterima dari klien sebelum diproses atau disimpan.
 - **SEC-006:** Data dikirim melalui HTTPS pada lingkungan deployment publik.
 - **SEC-007:** Token dan informasi autentikasi tidak boleh ditampilkan pada UI atau dicatat ke log yang tidak aman.
-- **SEC-008:** Detail penyimpanan token yang aman di Android dan kebijakan retensi data TBD.
+- **SEC-008:** Aplikasi harus menyimpan token autentikasi menggunakan mekanisme penyimpanan Android yang aman; refresh token harus dapat dirotasi dan dicabut saat logout.
 
 ### 5.4 Software Quality Attributes
 
@@ -710,8 +711,8 @@ flowchart TD
 
 | ID | Issue | Status |
 |---|---|---|
-| TBD-001 | Hosting backend Express dan konfigurasi deployment | Open |
-| TBD-002 | Masa berlaku access/refresh token dan mekanisme refresh | Open |
+| TBD-001 | Hosting backend Express dan konfigurasi deployment | Closed — Express web service pada Render; PostgreSQL pada Supabase |
+| TBD-002 | Masa berlaku access/refresh token dan mekanisme refresh | Closed — access token 15 menit; refresh token 7 hari, dirotasi saat refresh dan dicabut saat logout |
 | TBD-003 | Kebijakan penghapusan akun dan retensi data | Open |
 | TBD-004 | Detail final atribut profil pemilik | Closed — atribut baseline ditetapkan pada Appendix B.3 |
 | TBD-005 | Dokumen panduan pengguna dan dokumentasi API | Open |
