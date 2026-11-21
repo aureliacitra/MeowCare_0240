@@ -8,8 +8,8 @@
 
 | Field | Value |
 |---|---|
-| Document ID | SRS-MeowCare-v0.1 |
-| Version Number | 0.1 (Draft) |
+| Document ID | SRS-MeowCare-v0.2 |
+| Version Number | 0.2 (Requirements Baseline) |
 | Issue Date | November 21, 2026 |
 | Classification | Public |
 | Reviewer | TBD |
@@ -24,7 +24,7 @@ This document is prepared for an academic mobile application development project
 
 | Date | Version | Description | Author |
 |---|---|---|
-| November 21, 2026 | 0.1 | Initial draft | Aurelia Citra Pangukir |
+| November 21, 2026 | 0.1 | Initial draft | Aurelia Citra Pangukir |\n| November 21, 2026 | 0.2 | Clarification and completion of baseline business rules | Aurelia Citra Pangukir |
 
 ## Reviewed By
 
@@ -112,7 +112,7 @@ Tujuan utama MeowCare:
 - Mendukung pencatatan kondisi atau aktivitas harian kucing selama penitipan.
 - Mengurangi ketergantungan pada pencatatan manual yang terpisah.
 
-MeowCare pada versi awal ditujukan untuk satu pemilik/pengelola akun. Aplikasi tidak mencakup akun pelanggan, multi-role admin, pembayaran online, notifikasi eksternal, atau pemesanan mandiri oleh pelanggan, kecuali ditetapkan pada revisi berikutnya.
+MeowCare pada versi awal ditujukan untuk satu pemilik/pengelola akun. Aplikasi tidak mencakup akun pelanggan, multi-role admin, pembayaran online, notifikasi eksternal, atau pemesanan mandiri oleh pelanggan. Aplikasi mendukung layanan penitipan dengan tarif per hari dan grooming dengan tarif per sesi. Reservasi penitipan menggunakan rentang tanggal, sedangkan reservasi grooming menggunakan tanggal sesi.
 
 
 ### 1.5 References
@@ -182,7 +182,7 @@ Tidak terdapat role admin terpisah maupun akun pelanggan pada versi awal.
 
 ### 2.4 Operating Environment
 
-- Perangkat: smartphone Android; versi minimum Android TBD.
+- Perangkat: smartphone Android dengan versi minimum Android 8.0 (API 26).
 - Aplikasi: Android native menggunakan Kotlin dan Jetpack Compose dengan Material 3.
 - Navigasi: Jetpack Navigation Compose.
 - Pola arsitektur: MVVM; UI mengamati state ViewModel melalui StateFlow.
@@ -345,14 +345,14 @@ Fitur Reservasi digunakan untuk mencatat penggunaan satu layanan oleh satu kucin
 - **REQ-031:** Sistem harus menampilkan daftar reservasi milik akun.
 - **REQ-032:** Sistem harus menyediakan pencarian reservasi berdasarkan nama kucing.
 - **REQ-033:** Sistem harus menyediakan pembuatan reservasi yang menghubungkan satu kucing dengan satu layanan.
-- **REQ-034:** Sistem harus menyimpan periode reservasi dan data lain yang diperlukan; detail field TBD.
+- **REQ-034:** Sistem harus menyimpan tanggal reservasi; reservasi penitipan memiliki tanggal mulai dan tanggal selesai, sedangkan reservasi grooming memiliki tanggal sesi.
 - **REQ-035:** Sistem harus menyediakan detail reservasi.
 - **REQ-036:** Sistem harus menyediakan pengubahan reservasi.
 - **REQ-037:** Sistem harus menyediakan penghapusan reservasi.
-- **REQ-038:** Sistem harus menyediakan status reservasi Dititipkan dan Selesai.
-- **REQ-039:** Sistem harus menghitung biaya penitipan berdasarkan jumlah hari yang ditagihkan dikalikan tarif harian, dengan minimum satu hari tagihan; aturan perhitungan tanggal TBD.
-- **REQ-040:** Sistem harus menghitung biaya layanan per sesi berdasarkan tarif layanan.
-- **REQ-041:** Sistem harus menyimpan snapshot tarif dan total biaya pada saat reservasi dibuat atau diperbarui sehingga perubahan tarif layanan tidak mengubah reservasi lama secara otomatis.
+- **REQ-038:** Sistem harus menyediakan status reservasi Terjadwal, Dititipkan, Selesai, dan Dibatalkan.
+- **REQ-039:** Sistem harus menghitung biaya penitipan berdasarkan jumlah tanggal kalender secara inklusif (tanggal mulai dan tanggal selesai dihitung), dikalikan tarif harian, dengan minimum satu hari tagihan.
+- **REQ-040:** Sistem harus menghitung biaya grooming per sesi berdasarkan tarif layanan. Reservasi grooming dihitung satu sesi untuk satu kucing.
+- **REQ-041:** Sistem harus menyimpan snapshot jenis perhitungan tarif, tarif yang digunakan, dan total biaya pada saat reservasi dibuat atau diperbarui sehingga perubahan tarif layanan tidak mengubah reservasi lama secara otomatis.
 - **REQ-042:** Sistem harus memvalidasi data reservasi, termasuk keterkaitan kucing dan layanan, sebelum menyimpan.
 
 ### 3.6 Catatan Harian
@@ -372,9 +372,9 @@ Fitur Catatan Harian digunakan untuk mencatat kondisi, aktivitas, dan informasi 
 #### 3.6.3 Functional Requirements
 
 - **REQ-043:** Sistem harus menyediakan catatan harian yang terkait dengan reservasi.
-- **REQ-044:** Sistem harus menyediakan pencatatan tanggal, kondisi, aktivitas, dan keterangan harian.
-- **REQ-045:** Sistem harus menyediakan penambahan foto opsional pada catatan harian.
-- **REQ-046:** Sistem harus menyimpan catatan harian dan foto terkait pada penyimpanan lokal perangkat.
+- **REQ-044:** Sistem harus menyediakan pencatatan tanggal, kondisi, aktivitas, dan keterangan harian. Setiap reservasi hanya memiliki satu catatan harian untuk satu tanggal.
+- **REQ-045:** Sistem harus menyediakan penambahan foto opsional pada catatan harian, dengan maksimal tiga foto per catatan.
+- **REQ-046:** Sistem harus menyimpan catatan harian dan foto terkait pada penyimpanan lokal perangkat. Foto yang didukung adalah JPEG/JPG dan PNG dengan ukuran maksimal 5 MB per foto.
 - **REQ-047:** Sistem harus menyediakan pembacaan daftar dan detail catatan harian berdasarkan reservasi.
 - **REQ-048:** Sistem harus menyediakan pengubahan dan penghapusan catatan harian.
 - **REQ-049:** Sistem harus menyediakan pencarian catatan harian berdasarkan kata kunci atau tanggal.
@@ -395,7 +395,7 @@ Fitur Catatan Harian digunakan untuk mencatat kondisi, aktivitas, dan informasi 
 ### 4.2 Hardware Interfaces
 
 - Perangkat Android untuk menjalankan aplikasi.
-- Kamera atau galeri/file picker dapat digunakan untuk memilih foto catatan harian; detail mekanisme TBD.
+- Foto catatan harian dapat dipilih dari galeri atau melalui file picker Android.
 - Penyimpanan lokal perangkat digunakan untuk menyimpan catatan harian dan foto.
 - Kebutuhan hardware minimum perangkat TBD.
 
@@ -485,7 +485,7 @@ Detail endpoint, skema payload, versi library, dan kontrak API akan ditentukan p
 
 ## Appendix B: Analysis Models
 
-Model analisis seperti Use Case Diagram, Activity Diagram, ERD, dan alur navigasi belum disusun pada draft ini. Model akan ditambahkan setelah kebutuhan pada Bab 3 ditinjau.
+Model analisis seperti Use Case Diagram, Activity Diagram, ERD, dan alur navigasi akan disusun pada tahap desain berdasarkan requirement pada Bab 3. Model tersebut merupakan artefak desain lanjutan dan tidak mengubah kebutuhan baseline tanpa revisi SRS.
 
 
 ## Appendix C: Issues List
