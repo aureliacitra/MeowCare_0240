@@ -340,7 +340,7 @@ Fitur Reservasi digunakan untuk mencatat penggunaan satu layanan oleh satu kucin
 3. Pemilik membuat reservasi dengan memilih kucing, layanan, periode, dan informasi yang diperlukan.
 4. Sistem memvalidasi input dan menghitung biaya berdasarkan aturan tarif.
 5. Pemilik dapat melihat detail, mengubah, atau menghapus reservasi.
-6. Pemilik mengubah status reservasi menjadi selesai ketika layanan berakhir.
+6. Pemilik memperbarui status reservasi sesuai proses layanan, termasuk ketika layanan dimulai, selesai, atau dibatalkan.
 
 #### 3.5.3 Functional Requirements
 
@@ -351,7 +351,7 @@ Fitur Reservasi digunakan untuk mencatat penggunaan satu layanan oleh satu kucin
 - **REQ-035:** Sistem harus menyediakan detail reservasi.
 - **REQ-036:** Sistem harus menyediakan pengubahan reservasi.
 - **REQ-037:** Sistem harus menyediakan penghapusan reservasi.
-- **REQ-038:** Sistem harus menyediakan status reservasi Terjadwal, Dititipkan, Selesai, dan Dibatalkan. Reservasi grooming dapat langsung berpindah dari Terjadwal ke Selesai atau Dibatalkan.
+- **REQ-038:** Sistem harus menyediakan status reservasi Terjadwal, Berlangsung, Selesai, dan Dibatalkan. Status Berlangsung digunakan untuk penitipan maupun grooming.
 - **REQ-039:** Sistem harus menghitung biaya penitipan berdasarkan jumlah tanggal kalender secara inklusif (tanggal mulai dan tanggal selesai dihitung), dikalikan tarif harian, dengan minimum satu hari tagihan. Reservasi satu tanggal dikenakan satu hari tarif.
 - **REQ-040:** Sistem harus menghitung biaya grooming per sesi berdasarkan tarif layanan. Reservasi grooming dihitung satu sesi untuk satu kucing.
 - **REQ-041:** Sistem harus menyimpan snapshot jenis perhitungan tarif, tarif yang digunakan, dan total biaya pada saat reservasi dibuat atau diperbarui sehingga perubahan tarif layanan tidak mengubah reservasi lama secara otomatis.
@@ -361,7 +361,7 @@ Fitur Reservasi digunakan untuk mencatat penggunaan satu layanan oleh satu kucin
 
 #### 3.6.1 Description and Priority
 
-Fitur Catatan Harian digunakan untuk mencatat kondisi, aktivitas, dan informasi selama kucing menjalani reservasi. Catatan dan foto disimpan di perangkat. **Priority: Medium.**
+Fitur Catatan Harian digunakan untuk mencatat kondisi, aktivitas, dan informasi kucing selama menjalani reservasi penitipan. Catatan harian tidak diwajibkan untuk reservasi grooming. Catatan dan foto disimpan di perangkat. **Priority: Medium.**
 
 #### 3.6.2 Stimulus/Response Sequences
 
@@ -373,7 +373,7 @@ Fitur Catatan Harian digunakan untuk mencatat kondisi, aktivitas, dan informasi 
 
 #### 3.6.3 Functional Requirements
 
-- **REQ-043:** Sistem harus menyediakan catatan harian yang terkait dengan reservasi.
+- **REQ-043:** Sistem harus menyediakan catatan harian yang terkait dengan reservasi penitipan.
 - **REQ-044:** Sistem harus menyediakan pencatatan tanggal, kondisi, aktivitas, dan keterangan harian. Setiap reservasi hanya memiliki satu catatan harian untuk satu tanggal.
 - **REQ-045:** Sistem harus menyediakan penambahan foto opsional pada catatan harian, dengan maksimal tiga foto per catatan.
 - **REQ-046:** Sistem harus menyimpan catatan harian dan foto terkait pada penyimpanan lokal perangkat. Foto yang didukung adalah JPEG/JPG dan PNG dengan ukuran maksimal 5 MB per foto.
@@ -610,7 +610,7 @@ Keterangan:
 - User, Customer, Cat, Service, dan Reservation direncanakan tersimpan pada database cloud.
 - Daily Note dan Photo merupakan data lokal perangkat Android.
 - Satu Customer dapat memiliki beberapa Cat; satu Cat dapat memiliki beberapa Reservation; satu Service dapat digunakan pada beberapa Reservation.
-- Catatan harian dicatat per tanggal untuk reservasi; satu catatan memiliki maksimal tiga foto.
+- Catatan harian dicatat per tanggal untuk reservasi penitipan; satu catatan memiliki maksimal tiga foto.
 - Diagram ini bersifat konseptual. Hubungan data dan aturan penghapusan tetap mengikuti requirement Bab 3.
 
 ### B.4 Activity Diagram — Catatan Harian
