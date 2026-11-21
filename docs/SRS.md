@@ -8,7 +8,7 @@
 
 | Field | Value |
 |---|---|
-| Document ID | SRS-MeowCare-v0.3 |
+| Document ID | SRS-MeowCare-v0.4 |
 | Version Number | 0.3 (Analysis Models Draft) |
 | Issue Date | November 21, 2026 |
 | Classification | Public |
@@ -27,6 +27,7 @@ This document is prepared for an academic mobile application development project
 | November 21, 2026 | 0.1 | Initial draft | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.2 | Clarification and completion of baseline business rules | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.3 | Added initial analysis models | Aurelia Citra Pangukir |
+| November 21, 2026 | 0.4 | Defined baseline fields for User, Customer, Cat, and expanded ERD | Aurelia Citra Pangukir |
 
 ## Reviewed By
 
@@ -79,7 +80,7 @@ This document is prepared for an academic mobile application development project
 
 ### 1.1 Purpose
 
-Dokumen Software Requirement Specification (SRS) ini menjelaskan kebutuhan perangkat lunak MeowCare versi 0.3, yaitu aplikasi Android untuk membantu pemilik usaha penitipan dan grooming kucing mengelola data pelanggan, hewan, layanan, reservasi, dan catatan harian. Dokumen ini menjadi acuan awal bagi proses perancangan, implementasi, dan pengujian aplikasi. Ruang lingkup kebutuhan yang tercantum berfokus pada aplikasi Android dan layanan backend yang mendukung penyimpanan serta pengelolaan data.
+Dokumen Software Requirement Specification (SRS) ini menjelaskan kebutuhan perangkat lunak MeowCare versi 0.4, yaitu aplikasi Android untuk membantu pemilik usaha penitipan dan grooming kucing mengelola data pelanggan, hewan, layanan, reservasi, dan catatan harian. Dokumen ini menjadi acuan awal bagi proses perancangan, implementasi, dan pengujian aplikasi. Ruang lingkup kebutuhan yang tercantum berfokus pada aplikasi Android dan layanan backend yang mendukung penyimpanan serta pengelolaan data.
 
 
 ### 1.2 Document Conventions
@@ -554,7 +555,7 @@ Aturan perhitungan:
 
 ### B.3 Entity Relationship Diagram (ERD)
 
-ERD konseptual berikut menunjukkan hubungan entitas cloud dan data lokal. Atribut detail serta tipe data final akan ditentukan saat desain database dan penyimpanan lokal.
+ERD berikut memuat entitas cloud dan lokal beserta atribut baseline yang telah ditentukan pada tahap analisis. Atribut opsional tetap boleh kosong.
 
 ```mermaid
 erDiagram
@@ -566,24 +567,41 @@ erDiagram
     DAILY_NOTE ||--o{ PHOTO : contains
 
     USER {
-        int id
+        int id PK
+        string name
+        string email
+        string password_hash
+        string phone
     }
     CUSTOMER {
-        int id
-        int user_id
+        int id PK
+        int user_id FK
+        string name
+        string phone
+        string address
+        string notes
     }
     CAT {
-        int id
-        int customer_id
+        int id PK
+        int customer_id FK
+        string name
+        string gender
+        string breed
+        date birth_date
+        string color
+        string notes
     }
     SERVICE {
-        int id
-        int user_id
+        int id PK
+        int user_id FK
+        string name
+        string category
+        decimal tariff
     }
     RESERVATION {
-        int id
-        int cat_id
-        int service_id
+        int id PK
+        int cat_id FK
+        int service_id FK
         date start_date
         date end_date
         date session_date
@@ -592,7 +610,7 @@ erDiagram
         decimal total_cost
     }
     DAILY_NOTE {
-        int id
+        int id PK
         int reservation_id
         date note_date
         string condition
@@ -600,18 +618,68 @@ erDiagram
         string description
     }
     PHOTO {
-        int id
+        int id PK
         int daily_note_id
         string local_path
     }
 ```
 
-Keterangan:
-- User, Customer, Cat, Service, dan Reservation direncanakan tersimpan pada database cloud.
-- Daily Note dan Photo merupakan data lokal perangkat Android.
-- Satu Customer dapat memiliki beberapa Cat; satu Cat dapat memiliki beberapa Reservation; satu Service dapat digunakan pada beberapa Reservation.
-- Catatan harian dicatat per tanggal untuk reservasi penitipan; satu catatan memiliki maksimal tiga foto.
-- Diagram ini bersifat konseptual. Hubungan data dan aturan penghapusan tetap mengikuti requirement Bab 3.
+#### Baseline Atribut Data
+
+**User / Pemilik**
+| Field | Required | Description |
+|---|---|---|
+| id | Otomatis | ID akun |
+| name | Ya | Nama pemilik/pengelola |
+| email | Ya | Email untuk login |
+| password_hash | Ya | Password yang disimpan dalam bentuk hash, bukan teks asli |
+| phone | Tidak | Nomor telepon |
+
+**Customer / Pelanggan**
+| Field | Required | Description |
+|---|---|---|
+| id | Otomatis | ID pelanggan |
+| user_id | Otomatis | Akun pemilik/pengelola |
+| name | Ya | Nama pelanggan |
+| phone | Ya | Nomor telepon |
+| address | Tidak | Alamat |
+| notes | Tidak | Catatan tambahan |
+
+**Cat / Kucing**
+| Field | Required | Description |
+|---|---|---|
+| id | Otomatis | ID kucing |
+| customer_id | Ya | ID pelanggan pemilik |
+| name | Ya | Nama kucing |
+| gender | Tidak | Jenis kelamin |
+| breed | Tidak | Ras |
+| birth_date | Tidak | Tanggal lahir |
+| color | Tidak | Warna atau ciri fisik |
+| notes | Tidak | Catatan tambahan, termasuk karakter atau informasi khusus |
+
+**Service / Layanan**
+| Field | Required | Description |
+|---|---|---|
+| id | Otomatis | ID layanan |
+| user_id | Otomatis | Akun pemilik/pengelola |
+| name | Ya | Nama layanan |
+| category | Ya | Penitipan atau Grooming |
+| tariff | Ya | Tarif sesuai kategori; nilainya harus lebih dari nol |
+
+**Reservation / Reservasi**
+Data reservasi mencakup ID, kucing, layanan, tanggal sesuai kategori, status, snapshot tarif, dan total biaya. Penitipan menggunakan tanggal mulai dan selesai, sedangkan grooming menggunakan tanggal sesi. Field tanggal yang tidak relevan dengan kategori layanan dibiarkan kosong.
+
+**Daily Note / Catatan Harian dan Photo / Foto**
+Catatan harian menyimpan ID reservasi, tanggal catatan, kondisi, aktivitas, dan keterangan. Foto menyimpan referensi path file lokal. Satu reservasi penitipan hanya memiliki satu catatan per tanggal; maksimal tiga foto dapat dilampirkan ke satu catatan.
+
+#### Aturan Relasi dan Penyimpanan
+- User, Customer, Cat, Service, dan Reservation disimpan di cloud.
+- Daily Note dan Photo disimpan secara lokal di perangkat Android.
+- Satu akun User mengelola banyak Customer dan Service.
+- Satu Customer dapat memiliki beberapa Cat; satu Cat dapat memiliki beberapa Reservation; satu Service dapat digunakan oleh beberapa Reservation.
+- Catatan harian hanya untuk reservasi penitipan.
+- Penghapusan data yang masih direferensikan reservasi atau data hewan ditolak sesuai requirement Bab 3.
+- ERD merupakan model analisis. Tipe data, constraint, indeks, dan implementasi tabel final akan dijabarkan pada desain database.
 
 ### B.4 Activity Diagram — Catatan Harian
 
@@ -644,6 +712,6 @@ flowchart TD
 | TBD-001 | Hosting backend Express dan konfigurasi deployment | Open |
 | TBD-002 | Masa berlaku access/refresh token dan mekanisme refresh | Open |
 | TBD-003 | Kebijakan penghapusan akun dan retensi data | Open |
-| TBD-004 | Detail final atribut profil pemilik | Open |
+| TBD-004 | Detail final atribut profil pemilik | Closed — atribut baseline ditetapkan pada Appendix B.3 |
 | TBD-005 | Dokumen panduan pengguna dan dokumentasi API | Open |
 
