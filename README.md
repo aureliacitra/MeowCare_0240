@@ -93,9 +93,9 @@ Proyek saat ini berada pada tahap inisialisasi repository dan perencanaan kebutu
 | Tahapan | Status |
 |---|---|
 | Inisialisasi repository GitHub | Selesai |
-| README | Dalam proses |
-| Penyusunan SRS | Belum dimulai |
-| Analisis dan desain sistem | Belum dimulai |
+| README | Selesai (perlu pembaruan progres berkala) |
+| Penyusunan SRS | Draft v0.3; kebutuhan dan analysis models sedang ditinjau |
+| Analisis dan desain sistem | Analysis models awal tersedia di Appendix B SRS |
 | Perancangan database | Belum dimulai |
 | UI/UX Design | Belum dimulai |
 | Pengembangan Android dan backend | Belum dimulai |
