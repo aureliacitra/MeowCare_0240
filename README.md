@@ -24,7 +24,7 @@ Data operasional utama dikelola melalui backend dan database cloud. Catatan Hari
 
 | Fitur | Deskripsi | Status |
 |---|---|---|
-| Autentikasi & Profil | Registrasi, login, pengelolaan sesi token, dan profil Pemilik | Direncanakan |
+| Autentikasi & Profil | Registrasi, login, profil, pengelolaan sesi token, dan penghapusan akun | Direncanakan |
 | Manajemen Pelanggan | Tambah, lihat, ubah, hapus, dan cari data pelanggan | Direncanakan |
 | Manajemen Hewan | Mengelola profil kucing yang terhubung dengan pelanggan | Direncanakan |
 | Manajemen Layanan | Mengelola layanan grooming dan penitipan beserta tarif | Direncanakan |
@@ -84,18 +84,18 @@ MeowCare direncanakan memiliki entitas utama berikut:
 
 ## Dokumentasi
 
-- [Software Requirements Specification (SRS)](docs/SRS.md) — akan disusun
+- [Software Requirements Specification (SRS)](docs/SRS.md) — baseline kebutuhan versi 1.0 selesai
 
 ## Progres Pengembangan
 
-Proyek saat ini berada pada tahap inisialisasi repository dan perencanaan kebutuhan.
+Proyek saat ini telah menyelesaikan baseline kebutuhan SRS versi 1.0 dan akan melanjutkan ke tahap desain sistem/UI.
 
 | Tahapan | Status |
 |---|---|
 | Inisialisasi repository GitHub | Selesai |
 | README | Selesai (perlu pembaruan progres berkala) |
-| Penyusunan SRS | Draft v0.3; kebutuhan dan analysis models sedang ditinjau |
-| Analisis dan desain sistem | Analysis models awal tersedia di Appendix B SRS |
+| Penyusunan SRS | Selesai — baseline versi 1.0 |
+| Analisis dan desain sistem | Analysis models awal tersedia di Appendix B SRS; desain teknis lanjutan berikutnya |
 | Perancangan database | Belum dimulai |
 | UI/UX Design | Belum dimulai |
 | Pengembangan Android dan backend | Belum dimulai |
@@ -116,7 +116,7 @@ Progres akan diperbarui berdasarkan pekerjaan yang benar-benar dilakukan dan dic
 | Mata Kuliah | Pengembangan Aplikasi Mobile (PAM) |
 | Pengembang | Aurelia Citra Pangukir |
 | NIM | 20240140240 |
-| Status | Perencanaan dan analisis kebutuhan |
+| Status | SRS v1.0 selesai; tahap desain sistem berikutnya |
 
 ---
 
