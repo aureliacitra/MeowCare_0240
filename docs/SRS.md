@@ -8,8 +8,8 @@
 
 | Field | Value |
 |---|---|
-| Document ID | SRS-MeowCare-v0.6 |
-| Version Number | 0.6 (Account Deletion Policy) |
+| Document ID | SRS-MeowCare-v0.7 |
+| Version Number | 0.7 (Documentation Plan) |
 | Issue Date | November 21, 2026 |
 | Classification | Public |
 | Reviewer | TBD |
@@ -30,6 +30,7 @@ This document is prepared for an academic mobile application development project
 | November 21, 2026 | 0.4 | Defined baseline data fields and expanded ERD | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.5 | Defined backend hosting and token policy baseline | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.6 | Defined account deletion and data removal policy | Aurelia Citra Pangukir |
+| November 21, 2026 | 0.7 | Defined user guide and API documentation plan | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.4 | Defined baseline fields for User, Customer, Cat, and expanded ERD | Aurelia Citra Pangukir |
 
 ## Reviewed By
@@ -719,5 +720,5 @@ flowchart TD
 | TBD-002 | Masa berlaku access/refresh token dan mekanisme refresh | Closed — access token 15 menit; refresh token 7 hari, dirotasi saat refresh dan dicabut saat logout |
 | TBD-003 | Kebijakan penghapusan akun dan retensi data | Closed — penghapusan permanen data cloud dan catatan harian/foto lokal terkait setelah konfirmasi |
 | TBD-004 | Detail final atribut profil pemilik | Closed — atribut baseline ditetapkan pada Appendix B.3 |
-| TBD-005 | Dokumen panduan pengguna dan dokumentasi API | Open |
+| TBD-005 | Dokumen panduan pengguna dan dokumentasi API | Closed — user guide dibuat setelah UI utama; dokumentasi API disusun saat pengembangan backend |
 
