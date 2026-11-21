@@ -9,7 +9,7 @@
 | Field | Value |
 |---|---|
 | Document ID | SRS-MeowCare-v0.4 |
-| Version Number | 0.3 (Analysis Models Draft) |
+| Version Number | 0.4 (Data Fields Draft) |
 | Issue Date | November 21, 2026 |
 | Classification | Public |
 | Reviewer | TBD |
@@ -27,6 +27,7 @@ This document is prepared for an academic mobile application development project
 | November 21, 2026 | 0.1 | Initial draft | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.2 | Clarification and completion of baseline business rules | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.3 | Added initial analysis models | Aurelia Citra Pangukir |
+| November 21, 2026 | 0.4 | Defined baseline data fields and expanded ERD | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.4 | Defined baseline fields for User, Customer, Cat, and expanded ERD | Aurelia Citra Pangukir |
 
 ## Reviewed By
