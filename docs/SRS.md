@@ -126,7 +126,8 @@ MeowCare pada versi awal ditujukan untuk satu pemilik/pengelola akun. Aplikasi t
 
 | Reference | Description | Version/Date | Location |
 |---|---|---|---|
-| Software Requirement Specification Document Template | Struktur dan panduan penyusunan SRS yang digunakan pada dokumen ini | Uploaded template / TBD | Template SRS proyek |\n| Render Documentation — Your First Deploy | Panduan deployment web service untuk aplikasi backend | Accessed November 21, 2026 | https://render.com/docs/your-first-deploy |\n| Render Documentation — Deploy for Free | Informasi keterbatasan layanan gratis | Accessed November 21, 2026 | https://render.com/docs/free |
+| Software Requirement Specification Document Template | Struktur dan panduan penyusunan SRS yang digunakan pada dokumen ini | Uploaded template / TBD | Template SRS proyek |
+| Render Documentation — Your First Deploy | Panduan deployment web service untuk aplikasi backend | Accessed November 21, 2026 | https://render.com/docs/your-first-deploy |\n| Render Documentation — Deploy for Free | Informasi keterbatasan layanan gratis | Accessed November 21, 2026 | https://render.com/docs/free |
 | Pedoman PAM 2026 | Ketentuan proyek akhir Pengembangan Aplikasi Mobile | 2026 | Materi/pedoman perkuliahan; lokasi TBD |
 | MeowCare README | Ringkasan tujuan, scope, fitur, dan teknologi proyek | Initial version, 2026-11-21 | https://github.com/aureliacitra/MeowCare_0240/blob/master/README.md |
 
