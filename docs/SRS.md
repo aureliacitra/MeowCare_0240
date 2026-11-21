@@ -24,7 +24,8 @@ This document is prepared for an academic mobile application development project
 
 | Date | Version | Description | Author |
 |---|---|---|
-| November 21, 2026 | 0.1 | Initial draft | Aurelia Citra Pangukir |\n| November 21, 2026 | 0.2 | Clarification and completion of baseline business rules | Aurelia Citra Pangukir |
+| November 21, 2026 | 0.1 | Initial draft | Aurelia Citra Pangukir |
+| November 21, 2026 | 0.2 | Clarification and completion of baseline business rules | Aurelia Citra Pangukir |
 
 ## Reviewed By
 
@@ -77,7 +78,7 @@ This document is prepared for an academic mobile application development project
 
 ### 1.1 Purpose
 
-Dokumen Software Requirement Specification (SRS) ini menjelaskan kebutuhan perangkat lunak MeowCare versi 0.1, yaitu aplikasi Android untuk membantu pemilik usaha penitipan dan grooming kucing mengelola data pelanggan, hewan, layanan, reservasi, dan catatan harian. Dokumen ini menjadi acuan awal bagi proses perancangan, implementasi, dan pengujian aplikasi. Ruang lingkup kebutuhan yang tercantum berfokus pada aplikasi Android dan layanan backend yang mendukung penyimpanan serta pengelolaan data.
+Dokumen Software Requirement Specification (SRS) ini menjelaskan kebutuhan perangkat lunak MeowCare versi 0.2, yaitu aplikasi Android untuk membantu pemilik usaha penitipan dan grooming kucing mengelola data pelanggan, hewan, layanan, reservasi, dan catatan harian. Dokumen ini menjadi acuan awal bagi proses perancangan, implementasi, dan pengujian aplikasi. Ruang lingkup kebutuhan yang tercantum berfokus pada aplikasi Android dan layanan backend yang mendukung penyimpanan serta pengelolaan data.
 
 
 ### 1.2 Document Conventions
@@ -225,7 +226,7 @@ Dokumentasi yang direncanakan:
 
 ## 3 System Features
 
-> Draft kebutuhan fungsional. ID requirement disediakan untuk traceability dan akan diperbarui saat validasi kebutuhan.
+> Kebutuhan fungsional berikut merupakan baseline versi 0.2 dan memiliki ID untuk traceability serta penyusunan test case.
 
 
 ### 3.1 Authentication and Profile
@@ -349,8 +350,8 @@ Fitur Reservasi digunakan untuk mencatat penggunaan satu layanan oleh satu kucin
 - **REQ-035:** Sistem harus menyediakan detail reservasi.
 - **REQ-036:** Sistem harus menyediakan pengubahan reservasi.
 - **REQ-037:** Sistem harus menyediakan penghapusan reservasi.
-- **REQ-038:** Sistem harus menyediakan status reservasi Terjadwal, Dititipkan, Selesai, dan Dibatalkan.
-- **REQ-039:** Sistem harus menghitung biaya penitipan berdasarkan jumlah tanggal kalender secara inklusif (tanggal mulai dan tanggal selesai dihitung), dikalikan tarif harian, dengan minimum satu hari tagihan.
+- **REQ-038:** Sistem harus menyediakan status reservasi Terjadwal, Dititipkan, Selesai, dan Dibatalkan. Reservasi grooming dapat langsung berpindah dari Terjadwal ke Selesai atau Dibatalkan.
+- **REQ-039:** Sistem harus menghitung biaya penitipan berdasarkan jumlah tanggal kalender secara inklusif (tanggal mulai dan tanggal selesai dihitung), dikalikan tarif harian, dengan minimum satu hari tagihan. Reservasi satu tanggal dikenakan satu hari tarif.
 - **REQ-040:** Sistem harus menghitung biaya grooming per sesi berdasarkan tarif layanan. Reservasi grooming dihitung satu sesi untuk satu kucing.
 - **REQ-041:** Sistem harus menyimpan snapshot jenis perhitungan tarif, tarif yang digunakan, dan total biaya pada saat reservasi dibuat atau diperbarui sehingga perubahan tarif layanan tidak mengubah reservasi lama secara otomatis.
 - **REQ-042:** Sistem harus memvalidasi data reservasi, termasuk keterkaitan kucing dan layanan, sebelum menyimpan.
@@ -397,7 +398,7 @@ Fitur Catatan Harian digunakan untuk mencatat kondisi, aktivitas, dan informasi 
 - Perangkat Android untuk menjalankan aplikasi.
 - Foto catatan harian dapat dipilih dari galeri atau melalui file picker Android.
 - Penyimpanan lokal perangkat digunakan untuk menyimpan catatan harian dan foto.
-- Kebutuhan hardware minimum perangkat TBD.
+- Aplikasi tidak mensyaratkan hardware khusus selain perangkat Android yang mendukung versi minimum OS.
 
 ### 4.3 Software Interfaces
 
@@ -429,7 +430,7 @@ Detail endpoint, skema payload, versi library, dan kontrak API akan ditentukan p
 
 - Sistem harus memberikan feedback visual ketika permintaan data atau penyimpanan sedang berlangsung.
 - Sistem harus menangani kegagalan koneksi atau respons server dengan pesan yang dapat dipahami dan tidak menutup aplikasi secara tiba-tiba.
-- Target waktu respons terukur untuk operasi utama TBD dan akan ditentukan saat pengujian.
+- Untuk kondisi jaringan normal, operasi data utama ditargetkan memberikan respons dalam 3 detik, tidak termasuk waktu pemilihan atau pemuatan foto lokal. Target ini dievaluasi pada pengujian dan dapat disesuaikan berdasarkan hasil.
 
 ### 5.2 Safety Requirements
 
@@ -454,7 +455,7 @@ Detail endpoint, skema payload, versi library, dan kontrak API akan ditentukan p
 - **Maintainability:** Implementasi Android harus memisahkan UI, ViewModel, model, repository, dan sumber data sesuai arsitektur yang ditetapkan.
 - **Reliability:** Kegagalan API, input invalid, atau file lokal yang hilang harus ditangani tanpa menyebabkan aplikasi crash yang tidak terkontrol.
 - **Testability:** Kebutuhan fungsional memiliki ID unik untuk membantu penurunan test case.
-- **Portability:** Aplikasi dirancang untuk platform Android; versi minimum TBD.
+- **Portability:** Aplikasi dirancang untuk smartphone Android 8.0 (API 26) atau lebih baru.
 - **Data integrity:** Relasi data pelanggan, hewan, layanan, dan reservasi harus dijaga; penghapusan data yang masih direferensikan dibatasi sesuai requirement.
 
 
@@ -464,9 +465,9 @@ Detail endpoint, skema payload, versi library, dan kontrak API akan ditentukan p
 - Data catatan harian dan foto pada versi awal disimpan secara lokal di perangkat Android.
 - Data tarif yang digunakan dalam reservasi disimpan sebagai snapshot untuk menjaga nilai reservasi lama.
 - Aturan penghapusan data berelasi harus mencegah penghapusan yang menyebabkan referensi reservasi tidak valid.
-- Persyaratan backup/restore file lokal TBD.
-- Kebijakan ekspor data TBD.
-- Persyaratan privasi dan retensi data lebih lanjut TBD.
+- Backup/restore otomatis catatan harian dan foto tidak termasuk versi awal.
+- Ekspor data operasional belum termasuk baseline awal.
+- Pengguna bertanggung jawab menjaga data lokal dan menghindari penghapusan file aplikasi yang dapat menghilangkan catatan lokal.
 
 
 ## Appendix A: Glossary
@@ -492,17 +493,9 @@ Model analisis seperti Use Case Diagram, Activity Diagram, ERD, dan alur navigas
 
 | ID | Issue | Status |
 |---|---|---|
-| TBD-001 | Versi minimum Android yang didukung | Open |
-| TBD-002 | Detail field registrasi dan profil pemilik | Open |
-| TBD-003 | Detail atribut data pelanggan dan hewan | Open |
-| TBD-004 | Aturan tanggal dan durasi reservasi, termasuk pembulatan hari tagihan | Open |
-| TBD-005 | Detail jenis layanan dan aturan tarif per layanan | Open |
-| TBD-006 | Aturan unik catatan harian per tanggal/reservasi | Open |
-| TBD-007 | Format, ukuran maksimum, dan jumlah foto per catatan | Open |
-| TBD-008 | Hosting backend Express dan konfigurasi deployment | Open |
-| TBD-009 | Masa berlaku access/refresh token dan mekanisme refresh | Open |
-| TBD-010 | Target performa yang dapat diukur | Open |
-| TBD-011 | Backup, restore, dan ekspor catatan/file lokal | Open |
-| TBD-012 | Kebijakan penghapusan akun dan retensi data | Open |
-| TBD-013 | Dokumen panduan pengguna dan dokumentasi API | Open |
+| TBD-001 | Hosting backend Express dan konfigurasi deployment | Open |
+| TBD-002 | Masa berlaku access/refresh token dan mekanisme refresh | Open |
+| TBD-003 | Kebijakan penghapusan akun dan retensi data | Open |
+| TBD-004 | Detail final atribut profil pemilik | Open |
+| TBD-005 | Dokumen panduan pengguna dan dokumentasi API | Open |
 
