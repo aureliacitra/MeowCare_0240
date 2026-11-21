@@ -320,12 +320,12 @@ Fitur Layanan digunakan untuk mengelola daftar layanan penitipan/grooming yang d
 
 - **REQ-023:** Sistem harus menampilkan daftar layanan milik akun.
 - **REQ-024:** Sistem harus menyediakan pencarian layanan berdasarkan nama.
-- **REQ-025:** Sistem harus menyediakan penambahan layanan beserta tarif.
+- **REQ-025:** Sistem harus menyediakan penambahan layanan dengan nama, kategori layanan (Penitipan atau Grooming), dan tarif sesuai kategori perhitungan.
 - **REQ-026:** Sistem harus menyediakan detail layanan.
 - **REQ-027:** Sistem harus menyediakan pengubahan layanan dan tarif.
 - **REQ-028:** Sistem harus menyediakan penghapusan layanan apabila tidak digunakan reservasi.
 - **REQ-029:** Sistem harus menolak penghapusan layanan yang masih direferensikan reservasi dan menampilkan alasan penolakan.
-- **REQ-030:** Sistem harus memvalidasi nama layanan dan nilai tarif sebelum penyimpanan.
+- **REQ-030:** Sistem harus memvalidasi nama layanan, kategori layanan, dan tarif sebelum penyimpanan; tarif harus bernilai lebih dari nol.
 
 ### 3.5 Reservasi
 
@@ -355,7 +355,7 @@ Fitur Reservasi digunakan untuk mencatat penggunaan satu layanan oleh satu kucin
 - **REQ-039:** Sistem harus menghitung biaya penitipan berdasarkan jumlah tanggal kalender secara inklusif (tanggal mulai dan tanggal selesai dihitung), dikalikan tarif harian, dengan minimum satu hari tagihan. Reservasi satu tanggal dikenakan satu hari tarif.
 - **REQ-040:** Sistem harus menghitung biaya grooming per sesi berdasarkan tarif layanan. Reservasi grooming dihitung satu sesi untuk satu kucing.
 - **REQ-041:** Sistem harus menyimpan snapshot jenis perhitungan tarif, tarif yang digunakan, dan total biaya pada saat reservasi dibuat atau diperbarui sehingga perubahan tarif layanan tidak mengubah reservasi lama secara otomatis.
-- **REQ-042:** Sistem harus memvalidasi data reservasi, termasuk keterkaitan kucing dan layanan, sebelum menyimpan.
+- **REQ-042:** Sistem harus memvalidasi data reservasi, termasuk keterkaitan kucing dan layanan, kesesuaian jenis layanan dengan perhitungan tarif, kelengkapan tanggal, dan memastikan tanggal selesai penitipan tidak lebih awal dari tanggal mulai, sebelum menyimpan.
 
 ### 3.6 Catatan Harian
 
