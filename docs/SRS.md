@@ -8,8 +8,8 @@
 
 | Field | Value |
 |---|---|
-| Document ID | SRS-MeowCare-v0.7 |
-| Version Number | 0.7 (Documentation Plan) |
+| Document ID | SRS-MeowCare-v1.0 |
+| Version Number | 1.0 (Requirements Baseline) |
 | Issue Date | November 21, 2026 |
 | Classification | Public |
 | Reviewer | TBD |
@@ -31,6 +31,7 @@ This document is prepared for an academic mobile application development project
 | November 21, 2026 | 0.5 | Defined backend hosting and token policy baseline | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.6 | Defined account deletion and data removal policy | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.7 | Defined user guide and API documentation plan | Aurelia Citra Pangukir |
+| November 21, 2026 | 1.0 | Final audit and requirements baseline | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.4 | Defined baseline fields for User, Customer, Cat, and expanded ERD | Aurelia Citra Pangukir |
 
 ## Reviewed By
@@ -84,7 +85,7 @@ This document is prepared for an academic mobile application development project
 
 ### 1.1 Purpose
 
-Dokumen Software Requirement Specification (SRS) ini menjelaskan kebutuhan perangkat lunak MeowCare versi 0.6, yaitu aplikasi Android untuk membantu pemilik usaha penitipan dan grooming kucing mengelola data pelanggan, hewan, layanan, reservasi, dan catatan harian. Dokumen ini menjadi acuan awal bagi proses perancangan, implementasi, dan pengujian aplikasi. Ruang lingkup kebutuhan yang tercantum berfokus pada aplikasi Android dan layanan backend yang mendukung penyimpanan serta pengelolaan data.
+Dokumen Software Requirement Specification (SRS) ini menjelaskan kebutuhan perangkat lunak MeowCare versi 1.0, yaitu aplikasi Android untuk membantu pemilik usaha penitipan dan grooming kucing mengelola data pelanggan, hewan, layanan, reservasi, dan catatan harian. Dokumen ini menjadi acuan awal bagi proses perancangan, implementasi, dan pengujian aplikasi. Ruang lingkup kebutuhan yang tercantum berfokus pada aplikasi Android dan layanan backend yang mendukung penyimpanan serta pengelolaan data.
 
 
 ### 1.2 Document Conventions
@@ -126,7 +127,7 @@ MeowCare pada versi awal ditujukan untuk satu pemilik/pengelola akun. Aplikasi t
 
 | Reference | Description | Version/Date | Location |
 |---|---|---|---|
-| Software Requirement Specification Document Template | Struktur dan panduan penyusunan SRS yang digunakan pada dokumen ini | Uploaded template / TBD | Template SRS proyek |
+| Software Requirement Specification Document Template | Struktur dan panduan penyusunan SRS yang digunakan pada dokumen ini | Uploaded template / TBD | Template SRS proyek |\n| Render Documentation — Your First Deploy | Panduan deployment web service untuk aplikasi backend | Accessed November 21, 2026 | https://render.com/docs/your-first-deploy |\n| Render Documentation — Deploy for Free | Informasi keterbatasan layanan gratis | Accessed November 21, 2026 | https://render.com/docs/free |
 | Pedoman PAM 2026 | Ketentuan proyek akhir Pengembangan Aplikasi Mobile | 2026 | Materi/pedoman perkuliahan; lokasi TBD |
 | MeowCare README | Ringkasan tujuan, scope, fitur, dan teknologi proyek | Initial version, 2026-11-21 | https://github.com/aureliacitra/MeowCare_0240/blob/master/README.md |
 
@@ -170,7 +171,7 @@ Data operasional utama disimpan di backend/database cloud. Catatan harian reserv
 
 | Feature | Summary |
 |---|---|
-| Authentication and Profile | Registrasi/login pemilik serta pengelolaan profil dasar (detail TBD) |
+| Authentication and Profile | Registrasi/login, pengelolaan profil, logout, dan penghapusan akun |
 | Pelanggan | Mengelola data pelanggan, melihat, mencari, mengubah, dan menghapus data sesuai aturan relasi |
 | Hewan | Mengelola data kucing milik pelanggan dan melihat data terkait |
 | Layanan | Mengelola jenis layanan dan tarif yang ditawarkan |
@@ -194,7 +195,7 @@ Tidak terdapat role admin terpisah maupun akun pelanggan pada versi awal.
 - Navigasi: Jetpack Navigation Compose.
 - Pola arsitektur: MVVM; UI mengamati state ViewModel melalui StateFlow.
 - Backend: Node.js dan Express REST API.
-- Database: PostgreSQL cloud, direncanakan menggunakan Supabase sebagai penyedia database.
+- Database: PostgreSQL cloud menggunakan Supabase.
 - Koneksi: internet dibutuhkan untuk autentikasi dan operasi data cloud.
 - Catatan harian dan foto: penyimpanan lokal perangkat Android.
 
@@ -205,7 +206,7 @@ Tidak terdapat role admin terpisah maupun akun pelanggan pada versi awal.
 - Arsitektur aplikasi menerapkan MVVM dengan pemisahan UI, ViewModel, model, repository, dan sumber data.
 - State UI dikelola di ViewModel menggunakan StateFlow atau MutableStateFlow dan diamati oleh Composable.
 - Backend menyediakan REST API menggunakan Node.js/Express.
-- Database menggunakan PostgreSQL cloud; Supabase direncanakan sebagai penyedia database.
+- Database menggunakan PostgreSQL cloud dengan Supabase sebagai penyedia database.
 - Android tidak menggunakan Room atau SQLite sebagai database aplikasi.
 - Aplikasi harus memiliki fungsi membaca dan menyimpan file lokal, khususnya catatan harian dan foto terkait reservasi.
 - Data cloud memerlukan koneksi internet; perilaku saat offline untuk data cloud TBD.
@@ -216,8 +217,8 @@ Tidak terdapat role admin terpisah maupun akun pelanggan pada versi awal.
 Dokumentasi yang direncanakan:
 - README proyek berisi deskripsi, ruang lingkup, teknologi, dan status pengembangan.
 - SRS sebagai spesifikasi kebutuhan sistem.
-- Panduan penggunaan aplikasi (TBD; format dan cakupan akan ditentukan).
-- Dokumentasi API/backend (TBD; endpoint dan format request/response akan ditentukan saat perancangan).
+- Panduan penggunaan aplikasi direncanakan dibuat setelah UI utama selesai.
+- Dokumentasi API/backend direncanakan disusun saat backend dikembangkan, mencakup endpoint, request, response, dan error.
 
 ### 2.7 Assumptions and Dependencies
 
@@ -226,7 +227,7 @@ Dokumentasi yang direncanakan:
 - Data pelanggan, hewan, layanan, dan reservasi tersimpan di backend/database cloud.
 - Catatan harian dan foto disimpan lokal; pengguna bertanggung jawab menjaga perangkat dan file lokal.
 - Backend, database, dan layanan hosting bergantung pada ketersediaan penyedia pihak ketiga.
-- Backend Express direncanakan di-deploy sebagai web service pada Render. Database PostgreSQL menggunakan Supabase.
+- Backend Express di-deploy sebagai web service pada Render. Database PostgreSQL menggunakan Supabase.
 - Aturan bisnis yang belum ditetapkan akan diputuskan pada tahap analisis lanjutan dan dicatat dalam Issues List.
 
 
@@ -246,9 +247,9 @@ Fitur autentikasi memungkinkan pemilik mendaftarkan akun dan masuk ke aplikasi. 
 1. Pemilik membuka aplikasi dan memilih registrasi atau login.
 2. Pemilik memasukkan data autentikasi.
 3. Sistem memvalidasi data dan mengirim permintaan ke backend.
-4. Backend memeriksa data akun; sistem menampilkan hasil dan membuka halaman utama jika berhasil, atau pesan kesalahan jika gagal.
+4. Backend memeriksa data akun; sistem menampilkan hasil dan membuka halaman utama jika berhasil, atau pesan kesalahan jika gagal.\n5. Pemilik dapat membuka pengaturan akun dan meminta penghapusan akun.\n6. Sistem meminta konfirmasi, menghapus data cloud dan catatan harian/foto lokal terkait, lalu mengarahkan pengguna ke halaman login/registrasi.
 
-#### 3.1.3 Functional Requirements
+#### 3.1.4 Functional Requirements
 
 - **REQ-001:** Sistem harus menyediakan proses registrasi akun pemilik.
 - **REQ-002:** Sistem harus menyediakan proses login untuk akun pemilik yang terdaftar.
@@ -414,7 +415,7 @@ Fitur Catatan Harian digunakan untuk mencatat kondisi, aktivitas, dan informasi 
 | Android OS | Menjalankan aplikasi dan menyediakan akses file/foto |
 | REST API (Node.js/Express) | Autentikasi, validasi, aturan bisnis, dan operasi data melalui HTTP API |
 | PostgreSQL (Cloud) | Penyimpanan data akun dan data operasional terstruktur |
-| Supabase | Rencana penyedia PostgreSQL cloud; layanan dan konfigurasi final TBD |
+| Supabase | Penyedia PostgreSQL cloud |
 | JWT | Mekanisme token autentikasi untuk permintaan API |
 | Kotlin / Jetpack Compose / Material 3 | Teknologi aplikasi Android dan UI |
 | Jetpack Navigation Compose | Navigasi layar aplikasi |
