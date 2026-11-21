@@ -8,8 +8,8 @@
 
 | Field | Value |
 |---|---|
-| Document ID | SRS-MeowCare-v0.2 |
-| Version Number | 0.2 (Requirements Baseline) |
+| Document ID | SRS-MeowCare-v0.3 |
+| Version Number | 0.3 (Analysis Models Draft) |
 | Issue Date | November 21, 2026 |
 | Classification | Public |
 | Reviewer | TBD |
@@ -26,6 +26,7 @@ This document is prepared for an academic mobile application development project
 |---|---|---|
 | November 21, 2026 | 0.1 | Initial draft | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.2 | Clarification and completion of baseline business rules | Aurelia Citra Pangukir |
+| November 21, 2026 | 0.3 | Added initial analysis models | Aurelia Citra Pangukir |
 
 ## Reviewed By
 
@@ -78,7 +79,7 @@ This document is prepared for an academic mobile application development project
 
 ### 1.1 Purpose
 
-Dokumen Software Requirement Specification (SRS) ini menjelaskan kebutuhan perangkat lunak MeowCare versi 0.2, yaitu aplikasi Android untuk membantu pemilik usaha penitipan dan grooming kucing mengelola data pelanggan, hewan, layanan, reservasi, dan catatan harian. Dokumen ini menjadi acuan awal bagi proses perancangan, implementasi, dan pengujian aplikasi. Ruang lingkup kebutuhan yang tercantum berfokus pada aplikasi Android dan layanan backend yang mendukung penyimpanan serta pengelolaan data.
+Dokumen Software Requirement Specification (SRS) ini menjelaskan kebutuhan perangkat lunak MeowCare versi 0.3, yaitu aplikasi Android untuk membantu pemilik usaha penitipan dan grooming kucing mengelola data pelanggan, hewan, layanan, reservasi, dan catatan harian. Dokumen ini menjadi acuan awal bagi proses perancangan, implementasi, dan pengujian aplikasi. Ruang lingkup kebutuhan yang tercantum berfokus pada aplikasi Android dan layanan backend yang mendukung penyimpanan serta pengelolaan data.
 
 
 ### 1.2 Document Conventions
@@ -486,8 +487,131 @@ Detail endpoint, skema payload, versi library, dan kontrak API akan ditentukan p
 
 ## Appendix B: Analysis Models
 
-Model analisis seperti Use Case Diagram, Activity Diagram, ERD, dan alur navigasi akan disusun pada tahap desain berdasarkan requirement pada Bab 3. Model tersebut merupakan artefak desain lanjutan dan tidak mengubah kebutuhan baseline tanpa revisi SRS.
+Model analisis berikut memberikan gambaran visual interaksi pengguna, alur reservasi, dan hubungan data berdasarkan requirement pada Bab 3. Diagram bersifat konseptual; detail atribut, implementasi penyimpanan, dan desain teknis dapat disempurnakan pada tahap perancangan tanpa mengubah baseline kebutuhan secara diam-diam.
 
+### B.1 Use Case Diagram
+
+MeowCare memiliki satu aktor utama, yaitu Pemilik/Pengelola. Aktor berinteraksi dengan fitur autentikasi dan profil, Pelanggan, Hewan, Layanan, Reservasi, dan Catatan Harian. Pencarian merupakan fungsi di dalam modul yang relevan, bukan modul operasional terpisah.
+
+```mermaid
+flowchart TD
+    Owner["Pemilik / Pengelola"]
+    subgraph System["MeowCare"]
+        Auth["Registrasi, Login, Logout"]
+        Profile["Kelola Profil"]
+        Customer["Kelola Pelanggan"]
+        Cat["Kelola Data Kucing"]
+        Service["Kelola Layanan dan Tarif"]
+        Reservation["Kelola Reservasi"]
+        Status["Kelola Status Reservasi"]
+        Daily["Kelola Catatan Harian"]
+        Search["Cari Data"]
+    end
+    Owner --> Auth
+    Owner --> Profile
+    Owner --> Customer
+    Owner --> Cat
+    Owner --> Service
+    Owner --> Reservation
+    Owner --> Status
+    Owner --> Daily
+    Owner --> Search
+```
+
+### B.2 Activity Diagram — Pembuatan Reservasi
+
+Alur pembuatan reservasi dimulai dari pemilihan kucing dan layanan. Input tanggal bergantung pada jenis layanan, dan total biaya dihitung sebelum reservasi disimpan.
+
+```mermaid
+flowchart TD
+    Start([Mulai]) --> A["Buka menu Reservasi"]
+    A --> B["Pilih Tambah Reservasi"]
+    B --> C["Pilih kucing"]
+    C --> D["Pilih layanan"]
+    D --> E{"Jenis layanan"}
+    E -->|Penitipan| F["Input tanggal masuk dan keluar"]
+    E -->|Grooming| G["Input tanggal sesi"]
+    F --> H["Validasi data"]
+    G --> H
+    H --> I{"Data valid?"}
+    I -->|Tidak| J["Tampilkan pesan kesalahan dan perbaiki input"]
+    J --> H
+    I -->|Ya| K{"Jenis layanan"}
+    K -->|Penitipan| L["Hitung jumlah hari inklusif"]
+    L --> M["Hitung tarif harian x jumlah hari"]
+    K -->|Grooming| N["Hitung tarif satu sesi"]
+    M --> O["Simpan snapshot tarif dan total"]
+    N --> O
+    O --> P["Simpan reservasi"]
+    P --> Q["Status awal: Terjadwal"]
+    Q --> End([Selesai])
+```
+
+Aturan perhitungan:
+- Penitipan: tanggal mulai dan tanggal selesai dihitung sebagai hari yang ditagihkan; satu tanggal dihitung satu hari.
+- Grooming: satu reservasi mewakili satu sesi untuk satu kucing.
+- Snapshot tarif dan total biaya disimpan agar perubahan tarif layanan tidak otomatis mengubah reservasi sebelumnya.
+
+### B.3 Entity Relationship Diagram (ERD)
+
+ERD konseptual berikut menunjukkan hubungan entitas cloud dan data lokal. Atribut detail serta tipe data final akan ditentukan saat desain database dan penyimpanan lokal.
+
+```mermaid
+erDiagram
+    USER ||--o{ CUSTOMER : owns
+    CUSTOMER ||--o{ CAT : has
+    CAT ||--o{ RESERVATION : receives
+    SERVICE ||--o{ RESERVATION : selected
+    RESERVATION ||--o{ DAILY_NOTE : has
+    DAILY_NOTE ||--o{ PHOTO : contains
+
+    USER {
+        int id
+    }
+    CUSTOMER {
+        int id
+        int user_id
+    }
+    CAT {
+        int id
+        int customer_id
+    }
+    SERVICE {
+        int id
+        int user_id
+    }
+    RESERVATION {
+        int id
+        int cat_id
+        int service_id
+        date start_date
+        date end_date
+        date session_date
+        string status
+        decimal tariff_snapshot
+        decimal total_cost
+    }
+    DAILY_NOTE {
+        int id
+        int reservation_id
+        date note_date
+        string condition
+        string activity
+        string description
+    }
+    PHOTO {
+        int id
+        int daily_note_id
+        string local_path
+    }
+```
+
+Keterangan:
+- User, Customer, Cat, Service, dan Reservation direncanakan tersimpan pada database cloud.
+- Daily Note dan Photo merupakan data lokal perangkat Android.
+- Satu Customer dapat memiliki beberapa Cat; satu Cat dapat memiliki beberapa Reservation; satu Service dapat digunakan pada beberapa Reservation.
+- Catatan harian dicatat per tanggal untuk reservasi; satu catatan memiliki maksimal tiga foto.
+- Diagram ini bersifat konseptual. Hubungan data dan aturan penghapusan tetap mengikuti requirement Bab 3.
 
 ## Appendix C: Issues List
 
