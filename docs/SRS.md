@@ -32,7 +32,6 @@ This document is prepared for an academic mobile application development project
 | November 21, 2026 | 0.6 | Defined account deletion and data removal policy | Aurelia Citra Pangukir |
 | November 21, 2026 | 0.7 | Defined user guide and API documentation plan | Aurelia Citra Pangukir |
 | November 21, 2026 | 1.0 | Final audit and requirements baseline | Aurelia Citra Pangukir |
-| November 21, 2026 | 0.4 | Defined baseline fields for User, Customer, Cat, and expanded ERD | Aurelia Citra Pangukir |
 
 ## Reviewed By
 
@@ -233,7 +232,7 @@ Dokumentasi yang direncanakan:
 
 ## 3 System Features
 
-> Kebutuhan fungsional berikut merupakan baseline versi 0.2 dan memiliki ID untuk traceability serta penyusunan test case.
+> Kebutuhan fungsional berikut merupakan baseline SRS versi 1.0 dan memiliki ID untuk traceability serta penyusunan test case.
 
 
 ### 3.1 Authentication and Profile
@@ -249,7 +248,7 @@ Fitur autentikasi memungkinkan pemilik mendaftarkan akun dan masuk ke aplikasi. 
 3. Sistem memvalidasi data dan mengirim permintaan ke backend.
 4. Backend memeriksa data akun; sistem menampilkan hasil dan membuka halaman utama jika berhasil, atau pesan kesalahan jika gagal.\n5. Pemilik dapat membuka pengaturan akun dan meminta penghapusan akun.\n6. Sistem meminta konfirmasi, menghapus data cloud dan catatan harian/foto lokal terkait, lalu mengarahkan pengguna ke halaman login/registrasi.
 
-#### 3.1.4 Functional Requirements
+#### 3.1.3 Functional Requirements
 
 - **REQ-001:** Sistem harus menyediakan proses registrasi akun pemilik.
 - **REQ-002:** Sistem harus menyediakan proses login untuk akun pemilik yang terdaftar.
